@@ -1,0 +1,11 @@
+services:
+  crawler:
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile
+      target: production
+    environment:
+      NODE_ENV: production
+      LOG_LEVEL: info
+      HEARTBEAT_INTERVAL_MS: 10000
+    restart: unless-stopped

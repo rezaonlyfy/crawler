@@ -1,0 +1,380 @@
+{
+  "ticket": "CRAWL-P1-002",
+  "description": "Stable Phase 1 evaluation site portfolio. This set drives crawler implementation; the crawler is built against these sites, not the other way around.",
+  "version": 1,
+  "lastVerifiedAt": "2026-09-03",
+  "rules": [
+    "Sites MUST NOT be removed because the crawler struggles with them — struggling sites are the point of the portfolio.",
+    "A site may only be replaced when the site itself dies (career page permanently gone or company defunct); the replacement must cover the same category and the change must be recorded in `changelog`.",
+    "All URLs were verified live (HTTP 200 via GET) on lastVerifiedAt.",
+    "categories: ats-personio | ats-greenhouse | ats-lever | ats-workday | ats-recruitee | ats-smartrecruiters | ats-softgarden | ats-onlyfy | custom-html | custom-js | difficult",
+    "expectedAts values are best-effort expectations recorded before implementation; correcting them during Phase 1 is allowed and expected."
+  ],
+  "changelog": [],
+  "sites": [
+    {
+      "id": "wemolo",
+      "name": "Wemolo GmbH",
+      "careerPageUrl": "https://wemolo.jobs.personio.de",
+      "category": "ats-personio",
+      "expectedAts": "Personio (hosted career page)",
+      "reasonForInclusion": "Canonical Personio-hosted board of a Munich scale-up; the most common ATS among German SMBs and a Tier 0 adapter target (Personio XML feed).",
+      "knownSpecialCharacteristics": [
+        "*.jobs.personio.de hosted page",
+        "Personio XML feed expected at /xml",
+        "JSON-LD JobPosting expected on job detail pages",
+        "German and English postings mixed"
+      ]
+    },
+    {
+      "id": "vytal",
+      "name": "Vytal Global GmbH",
+      "careerPageUrl": "https://vytal.jobs.personio.de",
+      "category": "ats-personio",
+      "expectedAts": "Personio (hosted career page)",
+      "reasonForInclusion": "Second Personio tenant (Cologne) to prove the Personio adapter generalizes beyond one tenant.",
+      "knownSpecialCharacteristics": [
+        "*.jobs.personio.de hosted page",
+        "small posting volume — good for exact-count assertions"
+      ]
+    },
+    {
+      "id": "everstox",
+      "name": "everstox GmbH",
+      "careerPageUrl": "https://everstox.jobs.personio.de",
+      "category": "ats-personio",
+      "expectedAts": "Personio (hosted career page)",
+      "reasonForInclusion": "Third Personio tenant; company's own website blocks bots (HTTP 403), so the hosted board is the only crawlable surface — realistic constraint.",
+      "knownSpecialCharacteristics": [
+        "*.jobs.personio.de hosted page",
+        "company main site is bot-protected (403 to non-browser clients)"
+      ]
+    },
+    {
+      "id": "happybrush",
+      "name": "happybrush GmbH",
+      "careerPageUrl": "https://happybrush.jobs.personio.de",
+      "category": "ats-personio",
+      "expectedAts": "Personio (hosted career page)",
+      "reasonForInclusion": "Fourth Personio tenant, consumer brand; tenants occasionally churn on Personio (two candidates were already dead at selection time), so redundancy keeps the category alive.",
+      "knownSpecialCharacteristics": [
+        "*.jobs.personio.de hosted page",
+        "Personio tenant churn risk documented — keep as redundancy for the category"
+      ]
+    },
+    {
+      "id": "gitlab",
+      "name": "GitLab Inc.",
+      "careerPageUrl": "https://job-boards.greenhouse.io/gitlab",
+      "category": "ats-greenhouse",
+      "expectedAts": "Greenhouse (native job board)",
+      "reasonForInclusion": "Canonical native Greenhouse board with high posting volume; Greenhouse has a public JSON API (boards-api.greenhouse.io) — Tier 0 adapter target.",
+      "knownSpecialCharacteristics": [
+        "boards.greenhouse.io redirects to job-boards.greenhouse.io (URL scheme migrated — canonicalization test)",
+        "public Greenhouse boards JSON API available",
+        "large posting volume, department grouping",
+        "remote/multi-location postings"
+      ]
+    },
+    {
+      "id": "celonis",
+      "name": "Celonis SE",
+      "careerPageUrl": "https://careers.celonis.com",
+      "category": "ats-greenhouse",
+      "expectedAts": "Greenhouse (custom frontend on own domain)",
+      "reasonForInclusion": "Munich enterprise with a custom career site on top of Greenhouse — tests that the adapter finds the ATS behind a branded frontend instead of scraping the skin.",
+      "knownSpecialCharacteristics": [
+        "custom frontend, Greenhouse backend",
+        "JSON-LD present on landing page (verified)",
+        "DE/EN localized pages — duplicate-language handling"
+      ]
+    },
+    {
+      "id": "n26",
+      "name": "N26 GmbH",
+      "careerPageUrl": "https://n26.com/en/careers",
+      "category": "ats-greenhouse",
+      "expectedAts": "Greenhouse (custom frontend on own domain)",
+      "reasonForInclusion": "Berlin fintech with career pages inside the main marketing site; entry URL redirects by locale (en → en-eu) — discovery must survive locale redirects.",
+      "knownSpecialCharacteristics": [
+        "locale-based redirects (/en/ → /en-eu/)",
+        "JSON-LD present (verified on landing page)",
+        "career pages embedded in large marketing site — discovery noise"
+      ]
+    },
+    {
+      "id": "palantir",
+      "name": "Palantir Technologies",
+      "careerPageUrl": "https://jobs.lever.co/palantir",
+      "category": "ats-lever",
+      "expectedAts": "Lever (native job board)",
+      "reasonForInclusion": "Canonical native Lever board; Lever has a public postings JSON API — Tier 0 adapter target.",
+      "knownSpecialCharacteristics": [
+        "public Lever postings API (api.lever.co/v0/postings/…)",
+        "large volume, team/location filters via query params"
+      ]
+    },
+    {
+      "id": "quantco",
+      "name": "QuantCo, Inc.",
+      "careerPageUrl": "https://jobs.lever.co/quantco-",
+      "category": "ats-lever",
+      "expectedAts": "Lever (native job board)",
+      "reasonForInclusion": "Second Lever tenant with DACH presence; tenant slug ends in a hyphen ('quantco-') — a real-world edge case for URL/externalId derivation.",
+      "knownSpecialCharacteristics": [
+        "tenant slug contains trailing hyphen — URL-parsing edge case",
+        "multi-office postings (Berlin, Zurich, US)"
+      ]
+    },
+    {
+      "id": "nvidia",
+      "name": "NVIDIA Corporation",
+      "careerPageUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite",
+      "category": "ats-workday",
+      "expectedAts": "Workday (native myworkdayjobs board)",
+      "reasonForInclusion": "Canonical native Workday board; fully JS-rendered but backed by the well-known cxs JSON API — Tier 0 adapter target.",
+      "knownSpecialCharacteristics": [
+        "no server-rendered job list — requires cxs API (…/wday/cxs/nvidia/…) or headless browser",
+        "POST-based search with JSON body",
+        "very large posting volume, facet filters"
+      ]
+    },
+    {
+      "id": "roche",
+      "name": "F. Hoffmann-La Roche AG",
+      "careerPageUrl": "https://careers.roche.com/global/en",
+      "category": "ats-workday",
+      "expectedAts": "Workday behind a Phenom CMS frontend (expected)",
+      "reasonForInclusion": "Swiss enterprise where the public career site is a separate CMS layer in front of the ATS — tests two-layer discovery (site → detail page → apply URL into Workday).",
+      "knownSpecialCharacteristics": [
+        "JSON-LD present (verified on landing page)",
+        "frontend and ATS are different systems — applicationValue points into Workday",
+        "global site with country/language dimensions (CH anchor for the portfolio)"
+      ]
+    },
+    {
+      "id": "everdrop",
+      "name": "everdrop GmbH",
+      "careerPageUrl": "https://everdrop.recruitee.com",
+      "category": "ats-recruitee",
+      "expectedAts": "Recruitee (hosted career page)",
+      "reasonForInclusion": "Canonical Recruitee-hosted board (Munich consumer brand); Recruitee exposes a public offers JSON API — Tier 0 adapter target.",
+      "knownSpecialCharacteristics": [
+        "*.recruitee.com hosted page",
+        "public offers API expected (…/api/offers/)",
+        "JSON-LD JobPosting expected on detail pages"
+      ]
+    },
+    {
+      "id": "rebuy",
+      "name": "rebuy recommerce GmbH",
+      "careerPageUrl": "https://rebuy.recruitee.com",
+      "category": "ats-recruitee",
+      "expectedAts": "Recruitee (hosted career page)",
+      "reasonForInclusion": "Second Recruitee tenant (Berlin, mid-size) — proves the adapter generalizes; several first-choice Recruitee tenants were already dead at selection time, so redundancy matters here too.",
+      "knownSpecialCharacteristics": [
+        "*.recruitee.com hosted page",
+        "German-first postings, multiple Berlin locations per job"
+      ]
+    },
+    {
+      "id": "bernardgruppe",
+      "name": "BERNARD Gruppe ZT GmbH",
+      "careerPageUrl": "https://bernardgruppe.recruitee.com",
+      "category": "ats-recruitee",
+      "expectedAts": "Recruitee (hosted career page)",
+      "reasonForInclusion": "Austrian engineering group on Recruitee — AT anchor for the portfolio and a traditional (non-startup) employer profile.",
+      "knownSpecialCharacteristics": [
+        "*.recruitee.com hosted page",
+        "Austrian locations (Innsbruck, Wien) — AT country-code coverage",
+        "DE/EN language toggle (/l/en)"
+      ]
+    },
+    {
+      "id": "bosch",
+      "name": "Robert Bosch GmbH",
+      "careerPageUrl": "https://jobs.bosch.com",
+      "category": "ats-smartrecruiters",
+      "expectedAts": "SmartRecruiters behind a custom search frontend",
+      "reasonForInclusion": "Huge German enterprise: custom search UI on jobs.bosch.com backed by SmartRecruiters (jobs.smartrecruiters.com/BoschGroup redirects here). Tests high-volume paginated search plus ATS-behind-frontend discovery.",
+      "knownSpecialCharacteristics": [
+        "paginated search results (thousands of postings)",
+        "jobs.smartrecruiters.com/BoschGroup 301s to jobs.bosch.com — canonicalization test",
+        "SmartRecruiters public posting API expected as Tier 0 path",
+        "many countries/languages — filtering to DACH needed"
+      ]
+    },
+    {
+      "id": "sixt",
+      "name": "Sixt SE",
+      "careerPageUrl": "https://careers.smartrecruiters.com/Sixt",
+      "category": "ats-smartrecruiters",
+      "expectedAts": "SmartRecruiters (hosted career page)",
+      "reasonForInclusion": "Canonical SmartRecruiters-hosted page of a Munich enterprise — the native-hosted counterpart to Bosch's custom frontend.",
+      "knownSpecialCharacteristics": [
+        "careers.smartrecruiters.com hosted page",
+        "load-more style list loading expected",
+        "public SmartRecruiters posting API expected (api.smartrecruiters.com/v1/companies/Sixt/postings)"
+      ]
+    },
+    {
+      "id": "medion",
+      "name": "MEDION AG",
+      "careerPageUrl": "https://medion.softgarden.io/en/vacancies",
+      "category": "ats-softgarden",
+      "expectedAts": "softgarden (hosted career page)",
+      "reasonForInclusion": "softgarden is a widespread German ATS not on the mandatory list — included deliberately so the portfolio contains an ATS without a planned Tier 0 adapter (forces the JSON-LD/recipe path).",
+      "knownSpecialCharacteristics": [
+        "*.softgarden.io hosted page",
+        "no Tier 0 adapter planned — must work via JSON-LD or recipe",
+        "DE/EN versions of the same postings"
+      ]
+    },
+    {
+      "id": "new-work-se",
+      "name": "NEW WORK SE (XING)",
+      "careerPageUrl": "https://www.new-work.se/en/career",
+      "category": "ats-onlyfy",
+      "expectedAts": "onlyfy one (XING E-Recruiting) expected",
+      "reasonForInclusion": "kununu's own corporate family on the onlyfy stack — strategically relevant ATS in the XING ecosystem, and a career section embedded in a corporate CMS site.",
+      "knownSpecialCharacteristics": [
+        "career section inside corporate website",
+        "onlyfy/Prescreen application flow expected on detail pages",
+        "DE/EN duplicated content"
+      ]
+    },
+    {
+      "id": "zalando",
+      "name": "Zalando SE",
+      "careerPageUrl": "https://jobs.zalando.com/en",
+      "category": "custom-js",
+      "expectedAts": "custom in-house career platform",
+      "reasonForInclusion": "Large Berlin tech employer with a fully custom, client-side career platform — the reference case for JS-heavy custom sites with no third-party ATS.",
+      "knownSpecialCharacteristics": [
+        "client-side rendered job list (SPA)",
+        "internal JSON APIs behind the frontend",
+        "load-more / infinite-list style result loading",
+        "locale prefix in URLs (/en, /de)"
+      ]
+    },
+    {
+      "id": "deutsche-bahn",
+      "name": "Deutsche Bahn AG",
+      "careerPageUrl": "https://db.jobs",
+      "category": "custom-html",
+      "expectedAts": "custom in-house platform (DB Vendo/own stack)",
+      "reasonForInclusion": "One of Germany's largest employers; classic server-side search with page-number pagination and enormous volume — the reference pagination case.",
+      "knownSpecialCharacteristics": [
+        "numbered pagination over tens of thousands of postings",
+        "faceted search (profession, location, entry level)",
+        "postings duplicated across many locations",
+        "aggressive marketing content around listings"
+      ]
+    },
+    {
+      "id": "lidl",
+      "name": "Lidl Dienstleistung GmbH & Co. KG",
+      "careerPageUrl": "https://jobs.lidl.de",
+      "category": "custom-html",
+      "expectedAts": "custom frontend over an enterprise ATS (expected)",
+      "reasonForInclusion": "High-volume German retail employer; server-rendered listing pages with pagination and strong location structure — the retail counterpart to DB.",
+      "knownSpecialCharacteristics": [
+        "paginated, faceted job search",
+        "store-level locations (thousands of near-duplicate postings differing only by city)",
+        "cookie-consent layer before content"
+      ]
+    },
+    {
+      "id": "dm",
+      "name": "dm-drogerie markt GmbH + Co. KG",
+      "careerPageUrl": "https://www.dm-jobs.de",
+      "category": "custom-html",
+      "expectedAts": "enterprise ATS behind custom frontend (expected SAP SuccessFactors)",
+      "reasonForInclusion": "Major German retailer whose entry domain redirects (.com → .de); SuccessFactors-style stack is common in German enterprises and is not on the Tier 0 list — must work via generic paths.",
+      "knownSpecialCharacteristics": [
+        "domain-level redirect .com → .de",
+        "no Tier 0 adapter planned for the expected ATS",
+        "store vs. headquarters postings mixed"
+      ]
+    },
+    {
+      "id": "spotify",
+      "name": "Spotify AB",
+      "careerPageUrl": "https://www.lifeatspotify.com/jobs",
+      "category": "custom-js",
+      "expectedAts": "custom in-house career platform (migrated off Lever)",
+      "reasonForInclusion": "Fully custom SPA career site of a company that migrated off a supported ATS — represents the 'ATS assumptions rot over time' scenario.",
+      "knownSpecialCharacteristics": [
+        "client-side rendered SPA, internal JSON API",
+        "no JSON-LD in server response (verified)",
+        "load-more style listing"
+      ]
+    },
+    {
+      "id": "hellofresh",
+      "name": "HelloFresh SE",
+      "careerPageUrl": "https://careers.hellofresh.com",
+      "category": "custom-js",
+      "expectedAts": "CMS career frontend over external ATS (expected; historically Greenhouse)",
+      "reasonForInclusion": "Berlin enterprise with a global career portal (auto-redirect to /global/en) layered over an ATS — a second two-layer case with different stack than Roche.",
+      "knownSpecialCharacteristics": [
+        "geo/locale auto-redirect to /global/en",
+        "global postings — DACH filtering required",
+        "frontend/ATS separation expected"
+      ]
+    },
+    {
+      "id": "redbull",
+      "name": "Red Bull GmbH",
+      "careerPageUrl": "https://jobs.redbull.com",
+      "category": "custom-js",
+      "expectedAts": "custom in-house career platform",
+      "reasonForInclusion": "Austrian flagship employer with a polished custom job platform; locale auto-redirect (→ /at-de) and load-more listing — the AT counterpart to Zalando.",
+      "knownSpecialCharacteristics": [
+        "geo/locale auto-redirect (/ → /at-de)",
+        "load-more / infinite-scroll style listing",
+        "global brand — many non-DACH postings to filter"
+      ]
+    },
+    {
+      "id": "check24",
+      "name": "CHECK24 Vergleichsportal GmbH",
+      "careerPageUrl": "https://jobs.check24.de",
+      "category": "difficult",
+      "expectedAts": "custom, decentralized across many legal entities",
+      "reasonForInclusion": "Deliberately difficult: one brand, dozens of legal entities and city-specific subsidiaries posting separately — stresses externalId stability, dedup across near-identical postings, and discovery breadth.",
+      "knownSpecialCharacteristics": [
+        "same role posted by multiple subsidiaries — near-duplicate handling",
+        "custom stack with mixed rendering",
+        "high posting churn"
+      ]
+    },
+    {
+      "id": "mediamarktsaturn",
+      "name": "MediaMarktSaturn Retail Group",
+      "careerPageUrl": "https://careers.mediamarktsaturn.com",
+      "category": "difficult",
+      "expectedAts": "enterprise ATS behind JS-heavy frontend (expected)",
+      "reasonForInclusion": "Deliberately difficult: JS-heavy multi-brand, multi-country career portal with store-level postings — combines rendering, volume and locale problems in one site.",
+      "knownSpecialCharacteristics": [
+        "JS-heavy listing with facets",
+        "multi-brand (MediaMarkt/Saturn) and multi-country content",
+        "store-level near-duplicate postings"
+      ]
+    },
+    {
+      "id": "dhl",
+      "name": "DHL Group (Deutsche Post DHL)",
+      "careerPageUrl": "https://careers.dhl.com",
+      "category": "difficult",
+      "expectedAts": "Avature (expected)",
+      "reasonForInclusion": "Deliberately difficult: Avature-based global portal with geo-redirects (/ → /eu/de), heavy JS, session-bound search and known bot sensitivity — the portfolio's stress test. Not removable just because the crawler fails here.",
+      "knownSpecialCharacteristics": [
+        "geo-based redirect on entry (/ → /eu/de)",
+        "session/state-bound search flows",
+        "bot-detection sensitivity expected",
+        "very large global volume, DACH filtering required"
+      ]
+    }
+  ]
+}

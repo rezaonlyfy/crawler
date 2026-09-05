@@ -1,0 +1,7 @@
+[
+  "https://example.com/jobs",
+  "https://example.com/jobs",
+  "file:///etc/passwd",
+  "http://127.0.0.1",
+  "invalid"
+]

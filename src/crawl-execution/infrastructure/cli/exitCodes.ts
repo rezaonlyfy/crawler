@@ -1,0 +1,6 @@
+export const EXIT_CODES = {
+  SUCCESS: 0,
+  NO_VALID_TARGETS: 1,
+  TARGET_REJECTED: 1,
+  INVALID_INPUT: 2,
+} as const;

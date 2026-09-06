@@ -12,8 +12,7 @@ export enum TargetUrlProblem {
   CONTAINS_CREDENTIALS = 'contains_credentials',
 }
 
-// A syntactically valid, normalized http(s) URL without credentials.
-// Normalization: lowercased host (via WHATWG parsing), fragment removed.
+
 export class TargetUrlValueObject extends ValueObject<TargetUrlProps> {
   private constructor(props: TargetUrlProps) {
     super(props);

@@ -47,9 +47,6 @@ export type CrawlRunProps = {
   siteRuns: SiteRun[];
 };
 
-// Domain entity: identity is the runId. Not persisted yet — no database in
-// Phase 1 (CRAWL-P1-003); a persistence base class comes only when runs are
-// actually stored.
 export class CrawlRun {
   private constructor(public readonly props: CrawlRunProps) {}
 

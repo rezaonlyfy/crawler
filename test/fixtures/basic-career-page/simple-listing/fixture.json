@@ -1,0 +1,18 @@
+{
+  "description": "A plain career listing page: three job-detail links with relative URLs, surrounded by navigation, newsletter and footer noise links that discovery must reject.",
+  "pages": [
+    {
+      "id": "listing",
+      "url": "https://careers.acme-analytics.example/jobs",
+      "file": "listing.html",
+      "mustContain": [
+        "Senior PHP Developer (m/w/d)",
+        "/jobs/senior-php-developer-4711",
+        "/jobs/frontend-engineer-4712",
+        "/jobs/data-analyst-4713",
+        "Privacy",
+        "About us"
+      ]
+    }
+  ]
+}

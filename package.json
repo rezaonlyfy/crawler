@@ -17,14 +17,18 @@
     "lint:fix": "eslint \"src/**/*.ts\" --max-warnings=0 --fix",
     "test": "NODE_ENV=test jest",
     "test:watch": "NODE_ENV=test jest --watch",
-    "test:cov": "NODE_ENV=test jest --coverage"
+    "test:cov": "NODE_ENV=test jest --coverage",
+    "test:fixtures": "NODE_ENV=test jest --testPathPattern shared/testing/fixtures && echo \"crawler-fixtures: PASS\""
   },
   "dependencies": {
+    "@crawlee/core": "^3.18.1",
+    "@crawlee/playwright": "^3.18.1",
     "@nestjs/common": "^10.2.6",
     "@nestjs/config": "^3.1.1",
     "@nestjs/core": "^10.2.6",
     "joi": "^17.10.2",
     "nest-commander": "3.17.0",
+    "playwright": "^1.53.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^5.0.1",
     "rxjs": "^7.8.1",

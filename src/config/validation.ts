@@ -16,4 +16,12 @@ export const validationSchema = Joi.object({
   EVALUATION_SITES_FILE: Joi.string(),
   HEARTBEAT_INTERVAL_MS: Joi.number().positive(),
   ALLOW_PRIVATE_NETWORK_TARGETS: Joi.boolean(),
+  CRAWLER_USER_AGENT: Joi.string(),
+  CRAWLER_MAX_CONCURRENCY: Joi.number().integer().positive(),
+  CRAWLER_MAX_REQUESTS_PER_SITE: Joi.number().integer().positive(),
+  CRAWLER_MAX_REQUESTS_PER_MINUTE: Joi.number().integer().positive(),
+  CRAWLER_SAME_DOMAIN_DELAY_SECONDS: Joi.number().min(0),
+  CRAWLER_NAVIGATION_TIMEOUT_SECONDS: Joi.number().positive(),
+  CRAWLER_MAX_REQUEST_RETRIES: Joi.number().integer().min(0),
+  CRAWLER_RESPECT_ROBOTS_TXT: Joi.boolean(),
 });

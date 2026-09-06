@@ -1,0 +1,17 @@
+{
+  "description": "A job-detail page without any JSON-LD: fields are only available as labeled HTML (Location:, Employment type:) plus an apply link, and no dates are stated anywhere.",
+  "pages": [
+    {
+      "id": "job",
+      "url": "https://careers.acme-analytics.example/jobs/junior-marketing-manager-4720",
+      "file": "job.html",
+      "mustContain": [
+        "Junior Marketing Manager",
+        "Location:",
+        "Vienna, Austria",
+        "Employment type:",
+        "Apply now"
+      ]
+    }
+  ]
+}

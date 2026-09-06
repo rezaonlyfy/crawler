@@ -53,7 +53,6 @@ export class CrawlTargetPolicy {
     return { allowed: true, url };
   }
 
-
   classifyAddress(address: string): RejectionReason | null {
     const ipResult = IpAddressValueObject.create(address);
     if (ipResult.isFailure) {

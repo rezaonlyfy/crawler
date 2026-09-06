@@ -12,7 +12,6 @@ export enum TargetUrlProblem {
   CONTAINS_CREDENTIALS = 'contains_credentials',
 }
 
-
 export class TargetUrlValueObject extends ValueObject<TargetUrlProps> {
   private constructor(props: TargetUrlProps) {
     super(props);

@@ -1,5 +1,3 @@
-
-
 export enum PageVisitStatus {
   SUCCESS = 'success',
   FAILED = 'failed',
@@ -18,7 +16,6 @@ export interface PageVisit {
   retryCount: number;
   durationMs: number;
 }
-
 
 export interface CrawlEngineSettings {
   userAgent: string;

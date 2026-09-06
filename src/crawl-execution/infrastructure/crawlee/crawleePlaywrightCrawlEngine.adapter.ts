@@ -1,4 +1,3 @@
-
 import { Configuration } from '@crawlee/core';
 import { PlaywrightCrawler } from '@crawlee/playwright';
 import { Injectable, Logger } from '@nestjs/common';
@@ -9,7 +8,6 @@ import {
   PageVisitStatus,
 } from 'src/crawl-execution/domain/ports/crawlEnginePort';
 import { buildCrawleeOptions } from 'src/crawl-execution/infrastructure/crawlee/crawleeEngineOptions';
-
 
 export const unvisitedPageVisit = (requestedUrl: string): PageVisit => ({
   requestedUrl,
@@ -46,7 +44,6 @@ export class CrawleePlaywrightCrawlEngine implements CrawlEnginePort {
           launchOptions: { headless: true },
         },
         browserPoolOptions: {
-
           useFingerprints: false,
         },
         preNavigationHooks: [

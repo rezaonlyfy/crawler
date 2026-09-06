@@ -1,7 +1,3 @@
-// Turns a raw list of input URLs into a planned CrawlRun.
-// Batch-input policy (CRAWL-P1-004): continue-on-invalid — invalid and
-// duplicate inputs are diagnosed and skipped; every valid target gets its
-// own SiteRun. Duplicates are detected on the normalized URL.
 import {
   CrawlRun,
   SiteRun,

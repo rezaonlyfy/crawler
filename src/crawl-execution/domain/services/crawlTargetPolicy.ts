@@ -1,7 +1,3 @@
-// Crawl target policy (CRAWL-P1-004): decides which URLs the crawler may
-// ever fetch. Pure domain logic — independent of Playwright/Crawlee.
-// Redirect destinations and DNS-resolved addresses MUST be re-evaluated
-// through this same policy at fetch time (see classifyAddress).
 import {
   IpAddressValueObject,
   NetworkClassification,
@@ -27,8 +23,6 @@ export type TargetEvaluation = {
 };
 
 export interface CrawlTargetPolicyOptions {
-  // Environment policy: private-network targets are rejected by default
-  // and may only be enabled for local development.
   allowPrivateNetworks: boolean;
 }
 
@@ -59,8 +53,6 @@ export class CrawlTargetPolicy {
     return { allowed: true, url };
   }
 
-  // Fetch-time hook: redirect targets and DNS-resolved socket addresses
-  // must pass this check before any connection is made.
   classifyAddress(address: string): RejectionReason | null {
     const ipResult = IpAddressValueObject.create(address);
     if (ipResult.isFailure) {

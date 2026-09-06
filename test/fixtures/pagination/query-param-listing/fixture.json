@@ -1,0 +1,25 @@
+{
+  "description": "A German career listing paginated via ?page=N query parameters with a rel=next link: three jobs on page one, two more on page two, no third page.",
+  "pages": [
+    {
+      "id": "listing",
+      "url": "https://karriere.nordwind-logistik.example/jobs",
+      "file": "listing.html",
+      "mustContain": [
+        "LKW-Fahrer (m/w/d)",
+        "/jobs/lkw-fahrer-201",
+        "/jobs?page=2"
+      ]
+    },
+    {
+      "id": "page-2",
+      "url": "https://karriere.nordwind-logistik.example/jobs?page=2",
+      "file": "page-2.html",
+      "mustContain": [
+        "Buchhalter (m/w/d)",
+        "/jobs/buchhalter-204",
+        "/jobs/it-administrator-205"
+      ]
+    }
+  ]
+}

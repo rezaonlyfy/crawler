@@ -1,0 +1,14 @@
+{
+  "description": "A job-detail page whose single JSON-LD block is syntactically invalid (truncated, trailing comma). Extraction must fail over gracefully instead of crashing the site crawl.",
+  "pages": [
+    {
+      "id": "job",
+      "url": "https://careers.acme-analytics.example/jobs/werkstudent-support-4730",
+      "file": "job.html",
+      "mustContain": [
+        "application/ld+json",
+        "Werkstudent Support (m/w/d)"
+      ]
+    }
+  ]
+}

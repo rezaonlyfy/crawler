@@ -1,0 +1,15 @@
+{
+  "description": "A job-detail page carrying a complete schema.org JobPosting JSON-LD block (identifier, dates, location, employment type, apply URL) alongside the rendered HTML.",
+  "pages": [
+    {
+      "id": "job",
+      "url": "https://careers.acme-analytics.example/jobs/senior-php-developer-4711",
+      "file": "job.html",
+      "mustContain": [
+        "application/ld+json",
+        "Senior PHP Developer (m/w/d)",
+        "2026-11-30"
+      ]
+    }
+  ]
+}

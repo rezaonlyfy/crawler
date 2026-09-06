@@ -4,11 +4,14 @@ import { InspectTargetUseCase } from 'src/crawl-execution/application/useCase/in
 import { PlanCrawlRunUseCase } from 'src/crawl-execution/application/useCase/planCrawlRun/planCrawlRun.useCase';
 import { CrawlRunPlanner } from 'src/crawl-execution/domain/services/crawlRunPlanner';
 import { CrawlTargetPolicy } from 'src/crawl-execution/domain/services/crawlTargetPolicy';
+import { CrawlEngineSettings } from 'src/crawl-execution/domain/ports/crawlEnginePort';
 import { CRAWL_EXECUTION_SYMBOLS } from 'src/crawl-execution/infrastructure/IoC/Symbols';
 import { TargetListFileReaderAdapter } from 'src/crawl-execution/infrastructure/adapters/targetListFile/targetListFileReader.adapter';
 import { CrawlRunReportFormatter } from 'src/crawl-execution/infrastructure/cli/crawlRunReport.formatter';
 import { InspectCommand } from 'src/crawl-execution/infrastructure/cli/inspect.command';
 import { RunCommand } from 'src/crawl-execution/infrastructure/cli/run.command';
+import { TargetInspectionFormatter } from 'src/crawl-execution/infrastructure/cli/targetInspection.formatter';
+import { CrawleePlaywrightCrawlEngine } from 'src/crawl-execution/infrastructure/crawlee/crawleePlaywrightCrawlEngine.adapter';
 import { ClockPort } from 'src/shared/domain/ports/clockPort';
 import { IdGeneratorPort } from 'src/shared/domain/ports/idGeneratorPort';
 import { SHARED_SYMBOLS } from 'src/shared/infrastructure/IoC/Symbols';
@@ -41,10 +44,21 @@ import { SharedModule } from 'src/shared/shared.module';
         SHARED_SYMBOLS.CLOCK_PORT,
       ],
     },
+    {
+      provide: CRAWL_EXECUTION_SYMBOLS.CRAWL_ENGINE,
+      useFactory: (
+        configService: ConfigService,
+      ): CrawleePlaywrightCrawlEngine =>
+        new CrawleePlaywrightCrawlEngine(
+          configService.get<CrawlEngineSettings>('crawlEngine'),
+        ),
+      inject: [ConfigService],
+    },
     PlanCrawlRunUseCase,
     InspectTargetUseCase,
     TargetListFileReaderAdapter,
     CrawlRunReportFormatter,
+    TargetInspectionFormatter,
     RunCommand,
     InspectCommand,
   ],

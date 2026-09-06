@@ -4,6 +4,10 @@ import {
   LinkScope,
   PageSnapshot,
 } from 'src/crawl-execution/domain/model/pageSnapshot';
+import {
+  PlatformDetection,
+  SitePlatform,
+} from 'src/job-discovery/domain/model/platformDetection';
 
 @Injectable()
 export class TargetInspectionFormatter {
@@ -31,6 +35,9 @@ export class TargetInspectionFormatter {
     if (inspection.snapshot) {
       lines.push(...this.snapshotSummary(inspection.snapshot));
     }
+    if (inspection.platformDetection) {
+      lines.push(...this.platformSummary(inspection.platformDetection));
+    }
     if (inspection.finalUrlEvaluation) {
       lines.push(
         inspection.finalUrlEvaluation.allowed
@@ -39,6 +46,19 @@ export class TargetInspectionFormatter {
       );
     }
 
+    return lines;
+  }
+
+  private platformSummary(detection: PlatformDetection): string[] {
+    if (detection.platform === SitePlatform.UNKNOWN) {
+      return ['platform:     unknown'];
+    }
+    const lines = [
+      `platform:     ${detection.platform} (${detection.confidence} confidence)`,
+    ];
+    for (const signal of detection.signals) {
+      lines.push(`  signal:     ${signal.signal}: ${signal.evidence}`);
+    }
     return lines;
   }
 

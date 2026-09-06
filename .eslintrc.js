@@ -83,6 +83,8 @@ module.exports = {
     quotes: [1, 'single', { avoidEscape: true }],
 
     // Layer direction: lower layers must not import from higher layers.
+    // Spec files are exempt — tests may compose across layers (e.g. running
+    // a domain service against snapshots built by an infrastructure adapter).
     'import/no-restricted-paths': [
       'error',
       {
@@ -111,6 +113,16 @@ module.exports = {
     ],
   },
   overrides: [
+    {
+      // Spec files are exempt from the layer-direction rule — tests may
+      // compose across layers (e.g. running a domain service against
+      // snapshots built by an infrastructure adapter). The technology bans
+      // below still apply.
+      files: ['src/**/*.spec.ts'],
+      rules: {
+        'import/no-restricted-paths': 'off',
+      },
+    },
     {
       // Application layer: no crawler/AI/persistence technology.
       files: ['src/**/application/**/*.ts'],

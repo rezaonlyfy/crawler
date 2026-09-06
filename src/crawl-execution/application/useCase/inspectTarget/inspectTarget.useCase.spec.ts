@@ -10,6 +10,11 @@ import {
   CrawlTargetPolicy,
   RejectionReason,
 } from 'src/crawl-execution/domain/services/crawlTargetPolicy';
+import {
+  DetectionConfidence,
+  SitePlatform,
+} from 'src/job-discovery/domain/model/platformDetection';
+import { SitePlatformDetector } from 'src/job-discovery/domain/services/sitePlatformDetector';
 
 const successVisit = (overrides: Partial<PageVisit> = {}): PageVisit => ({
   requestedUrl: 'https://careers.acme.example/jobs',
@@ -31,10 +36,13 @@ const fakeSnapshot = {
   links: [],
   jsonLd: [],
   metadata: {},
+  iframeSources: [],
+  scriptSources: [],
 } as PageSnapshot;
 
 describe('InspectTargetUseCase', () => {
   const policy = new CrawlTargetPolicy({ allowPrivateNetworks: false });
+  const detector = new SitePlatformDetector();
   let engine: jest.Mocked<CrawlEnginePort>;
   let snapshotBuilder: jest.Mocked<PageSnapshotBuilderPort>;
   let useCase: InspectTargetUseCase;
@@ -42,7 +50,12 @@ describe('InspectTargetUseCase', () => {
   beforeEach(() => {
     engine = { visit: jest.fn(), visitAll: jest.fn() };
     snapshotBuilder = { build: jest.fn().mockReturnValue(fakeSnapshot) };
-    useCase = new InspectTargetUseCase(policy, engine, snapshotBuilder);
+    useCase = new InspectTargetUseCase(
+      policy,
+      engine,
+      snapshotBuilder,
+      detector,
+    );
   });
 
   it('should not fetch a target the policy rejects', async () => {
@@ -73,7 +86,29 @@ describe('InspectTargetUseCase', () => {
       finalUrl: 'https://careers.acme.example/jobs',
       html: '<html><body><h1>Careers</h1></body></html>',
     });
+    expect(inspection.platformDetection).toEqual({
+      platform: SitePlatform.UNKNOWN,
+      confidence: DetectionConfidence.NONE,
+      signals: [],
+    });
     expect(inspection.finalUrlEvaluation).toBeUndefined();
+  });
+
+  it('should detect the platform from the snapshot', async () => {
+    engine.visit.mockResolvedValue(successVisit());
+    snapshotBuilder.build.mockReturnValue({
+      ...fakeSnapshot,
+      finalUrl: 'https://acme.jobs.personio.de/',
+    });
+
+    const inspection = await useCase.execute(
+      'https://careers.acme.example/jobs',
+    );
+
+    expect(inspection.platformDetection.platform).toBe(SitePlatform.PERSONIO);
+    expect(inspection.platformDetection.confidence).toBe(
+      DetectionConfidence.HIGH,
+    );
   });
 
   it('should not build a snapshot for a failed visit', async () => {
@@ -90,6 +125,7 @@ describe('InspectTargetUseCase', () => {
     );
 
     expect(inspection.snapshot).toBeUndefined();
+    expect(inspection.platformDetection).toBeUndefined();
     expect(snapshotBuilder.build).not.toHaveBeenCalled();
   });
 

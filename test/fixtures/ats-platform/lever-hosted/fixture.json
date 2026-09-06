@@ -1,0 +1,11 @@
+{
+  "description": "Lever-hosted job board (fake tenant on the real ATS hostname — the hostname is the fingerprint). Expected: LEVER / HIGH via hostname.",
+  "pages": [
+    {
+      "id": "board",
+      "url": "https://jobs.lever.co/acme-demo",
+      "file": "board.html",
+      "mustContain": ["Acme Demo", "Backend Engineer"]
+    }
+  ]
+}

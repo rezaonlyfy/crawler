@@ -7,6 +7,10 @@ import {
   CrawlTargetPolicy,
   RejectionReason,
 } from 'src/crawl-execution/domain/services/crawlTargetPolicy';
+import {
+  DetectionConfidence,
+  SitePlatform,
+} from 'src/job-discovery/domain/model/platformDetection';
 import { TargetInspectionFormatter } from 'src/crawl-execution/infrastructure/cli/targetInspection.formatter';
 
 const snapshot: PageSnapshot = {
@@ -33,6 +37,8 @@ const snapshot: PageSnapshot = {
     { raw: '{oops', parseError: 'bad' },
   ],
   metadata: {},
+  iframeSources: [],
+  scriptSources: [],
 };
 
 describe('TargetInspectionFormatter', () => {
@@ -104,6 +110,52 @@ describe('TargetInspectionFormatter', () => {
     expect(output).toContain(
       'canonicalUrl: https://careers.acme.example/en/jobs',
     );
+  });
+
+  it('should print the detected platform with its signals', () => {
+    const lines = formatter.format('https://acme.jobs.personio.de/', {
+      evaluation: policy.evaluate('https://acme.jobs.personio.de/'),
+      pageVisit: {
+        requestedUrl: 'https://acme.jobs.personio.de/',
+        finalUrl: 'https://acme.jobs.personio.de/',
+        redirected: false,
+        status: PageVisitStatus.SUCCESS,
+        retryCount: 0,
+        durationMs: 500,
+      },
+      snapshot,
+      platformDetection: {
+        platform: SitePlatform.PERSONIO,
+        confidence: DetectionConfidence.HIGH,
+        signals: [{ signal: 'hostname', evidence: 'acme.jobs.personio.de' }],
+      },
+    });
+
+    const output = lines.join('\n');
+    expect(output).toContain('platform:     personio (high confidence)');
+    expect(output).toContain('signal:     hostname: acme.jobs.personio.de');
+  });
+
+  it('should print unknown platforms without fake certainty', () => {
+    const lines = formatter.format('https://careers.acme.example/jobs', {
+      evaluation: policy.evaluate('https://careers.acme.example/jobs'),
+      pageVisit: {
+        requestedUrl: 'https://careers.acme.example/jobs',
+        finalUrl: 'https://careers.acme.example/jobs',
+        redirected: false,
+        status: PageVisitStatus.SUCCESS,
+        retryCount: 0,
+        durationMs: 500,
+      },
+      snapshot,
+      platformDetection: {
+        platform: SitePlatform.UNKNOWN,
+        confidence: DetectionConfidence.NONE,
+        signals: [],
+      },
+    });
+
+    expect(lines.join('\n')).toContain('platform:     unknown');
   });
 
   it('should include the error and a rejected redirect verdict on failure', () => {

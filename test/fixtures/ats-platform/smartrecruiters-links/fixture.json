@@ -1,0 +1,11 @@
+{
+  "description": "Custom-domain career page whose job links point at SmartRecruiters postings. Expected: SMARTRECRUITERS / MEDIUM via two or more outbound job links (no hostname match, no iframe).",
+  "pages": [
+    {
+      "id": "careers",
+      "url": "https://karriere.nordwind-logistik.example/jobs",
+      "file": "careers.html",
+      "mustContain": ["jobs.smartrecruiters.com/NordwindDemo"]
+    }
+  ]
+}

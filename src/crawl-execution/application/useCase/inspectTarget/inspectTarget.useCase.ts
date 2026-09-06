@@ -1,6 +1,11 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { TargetInspection } from 'src/crawl-execution/application/useCase/inspectTarget/targetInspection';
-import { CrawlEnginePort } from 'src/crawl-execution/domain/ports/crawlEnginePort';
+import {
+  CrawlEnginePort,
+  PageVisit,
+  PageVisitStatus,
+} from 'src/crawl-execution/domain/ports/crawlEnginePort';
+import { PageSnapshotBuilderPort } from 'src/crawl-execution/domain/ports/pageSnapshotBuilderPort';
 import { CrawlTargetPolicy } from 'src/crawl-execution/domain/services/crawlTargetPolicy';
 import { CRAWL_EXECUTION_SYMBOLS } from 'src/crawl-execution/infrastructure/IoC/Symbols';
 import { UseCase } from 'src/shared/domain/UseCase';
@@ -14,6 +19,8 @@ export class InspectTargetUseCase implements UseCase<TargetInspection> {
     private readonly crawlTargetPolicy: CrawlTargetPolicy,
     @Inject(CRAWL_EXECUTION_SYMBOLS.CRAWL_ENGINE)
     private readonly crawlEngine: CrawlEnginePort,
+    @Inject(CRAWL_EXECUTION_SYMBOLS.PAGE_SNAPSHOT_BUILDER)
+    private readonly pageSnapshotBuilder: PageSnapshotBuilderPort,
   ) {}
 
   async execute(url: string): Promise<TargetInspection> {
@@ -29,10 +36,23 @@ export class InspectTargetUseCase implements UseCase<TargetInspection> {
     return {
       evaluation,
       pageVisit,
+      snapshot: this.buildSnapshot(pageVisit),
       finalUrlEvaluation: this.evaluateRedirect(pageVisit),
     };
   }
 
+  private buildSnapshot(pageVisit: PageVisit) {
+    if (pageVisit.status !== PageVisitStatus.SUCCESS || !pageVisit.html) {
+      return undefined;
+    }
+    return this.pageSnapshotBuilder.build({
+      requestedUrl: pageVisit.requestedUrl,
+      finalUrl: pageVisit.finalUrl || pageVisit.requestedUrl,
+      html: pageVisit.html,
+    });
+  }
+
+  // Redirect destinations must pass the same target policy as the input URL.
   private evaluateRedirect(pageVisit: {
     redirected: boolean;
     finalUrl?: string;

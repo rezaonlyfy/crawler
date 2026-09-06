@@ -12,6 +12,7 @@ import { InspectCommand } from 'src/crawl-execution/infrastructure/cli/inspect.c
 import { RunCommand } from 'src/crawl-execution/infrastructure/cli/run.command';
 import { TargetInspectionFormatter } from 'src/crawl-execution/infrastructure/cli/targetInspection.formatter';
 import { CrawleePlaywrightCrawlEngine } from 'src/crawl-execution/infrastructure/crawlee/crawleePlaywrightCrawlEngine.adapter';
+import { CheerioPageSnapshotBuilderAdapter } from 'src/crawl-execution/infrastructure/snapshot/cheerioPageSnapshotBuilder.adapter';
 import { ClockPort } from 'src/shared/domain/ports/clockPort';
 import { IdGeneratorPort } from 'src/shared/domain/ports/idGeneratorPort';
 import { SHARED_SYMBOLS } from 'src/shared/infrastructure/IoC/Symbols';
@@ -53,6 +54,10 @@ import { SharedModule } from 'src/shared/shared.module';
           configService.get<CrawlEngineSettings>('crawlEngine'),
         ),
       inject: [ConfigService],
+    },
+    {
+      provide: CRAWL_EXECUTION_SYMBOLS.PAGE_SNAPSHOT_BUILDER,
+      useClass: CheerioPageSnapshotBuilderAdapter,
     },
     PlanCrawlRunUseCase,
     InspectTargetUseCase,

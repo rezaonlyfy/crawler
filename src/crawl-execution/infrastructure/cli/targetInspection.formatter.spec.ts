@@ -1,9 +1,39 @@
+import {
+  LinkScope,
+  PageSnapshot,
+} from 'src/crawl-execution/domain/model/pageSnapshot';
 import { PageVisitStatus } from 'src/crawl-execution/domain/ports/crawlEnginePort';
 import {
   CrawlTargetPolicy,
   RejectionReason,
 } from 'src/crawl-execution/domain/services/crawlTargetPolicy';
 import { TargetInspectionFormatter } from 'src/crawl-execution/infrastructure/cli/targetInspection.formatter';
+
+const snapshot: PageSnapshot = {
+  requestedUrl: 'https://careers.acme.example/jobs',
+  finalUrl: 'https://careers.acme.example/en/jobs',
+  canonicalUrl: 'https://careers.acme.example/en/jobs',
+  pageTitle: 'Careers at Acme',
+  visibleText: 'Careers',
+  headings: [{ level: 1, text: 'Careers' }],
+  links: [
+    {
+      url: 'https://careers.acme.example/jobs/1',
+      anchorText: 'Engineer',
+      scope: LinkScope.INTERNAL,
+    },
+    {
+      url: 'https://www.linkedin.com/company/acme',
+      anchorText: 'LinkedIn',
+      scope: LinkScope.EXTERNAL,
+    },
+  ],
+  jsonLd: [
+    { raw: '{}', data: {} },
+    { raw: '{oops', parseError: 'bad' },
+  ],
+  metadata: {},
+};
 
 describe('TargetInspectionFormatter', () => {
   const formatter = new TargetInspectionFormatter();
@@ -33,6 +63,7 @@ describe('TargetInspectionFormatter', () => {
         retryCount: 1,
         durationMs: 1234,
       },
+      snapshot,
       finalUrlEvaluation: policy.evaluate(
         'https://careers.acme.example/en/jobs',
       ),
@@ -50,6 +81,29 @@ describe('TargetInspectionFormatter', () => {
     expect(output).toContain('duration:     1234ms');
     expect(output).toContain('retryCount:   1');
     expect(output).toContain('redirect target: ALLOWED');
+  });
+
+  it('should summarize the snapshot when present', () => {
+    const lines = formatter.format('https://careers.acme.example/jobs', {
+      evaluation: policy.evaluate('https://careers.acme.example/jobs'),
+      pageVisit: {
+        requestedUrl: 'https://careers.acme.example/jobs',
+        finalUrl: 'https://careers.acme.example/en/jobs',
+        redirected: false,
+        status: PageVisitStatus.SUCCESS,
+        retryCount: 0,
+        durationMs: 500,
+      },
+      snapshot,
+    });
+
+    const output = lines.join('\n');
+    expect(output).toContain('headings:     1');
+    expect(output).toContain('links:        2 (1 internal / 1 external)');
+    expect(output).toContain('jsonLd:       2 block(s), 1 malformed');
+    expect(output).toContain(
+      'canonicalUrl: https://careers.acme.example/en/jobs',
+    );
   });
 
   it('should include the error and a rejected redirect verdict on failure', () => {

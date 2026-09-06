@@ -1,0 +1,11 @@
+{
+  "description": "Workday-hosted career site (fake tenant on the real *.myworkdayjobs.com hostname — the hostname is the fingerprint). Expected: WORKDAY / HIGH via hostname.",
+  "pages": [
+    {
+      "id": "board",
+      "url": "https://acmedemo.wd3.myworkdayjobs.com/en-US/External",
+      "file": "board.html",
+      "mustContain": ["Search for Jobs"]
+    }
+  ]
+}

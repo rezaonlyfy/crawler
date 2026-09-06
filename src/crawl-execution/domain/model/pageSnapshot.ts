@@ -49,4 +49,8 @@ export interface PageSnapshot {
   jsonLd: JsonLdBlock[];
   // meta[name]/meta[property] → content, first occurrence wins.
   metadata: Record<string, string>;
+  // Absolute http(s) URLs of iframe/script sources, deduplicated —
+  // fingerprinting evidence for embedded ATS widgets (CRAWL-P1-008).
+  iframeSources: string[];
+  scriptSources: string[];
 }

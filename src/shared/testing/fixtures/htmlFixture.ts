@@ -11,6 +11,7 @@ export const FIXTURE_CATEGORIES = [
   'html-job',
   'pagination',
   'malformed-jsonld',
+  'ats-platform',
 ] as const;
 
 export type FixtureCategory = (typeof FIXTURE_CATEGORIES)[number];

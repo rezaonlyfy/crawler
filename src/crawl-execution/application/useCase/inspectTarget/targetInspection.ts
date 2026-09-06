@@ -1,6 +1,7 @@
 import { PageSnapshot } from 'src/crawl-execution/domain/model/pageSnapshot';
 import { PageVisit } from 'src/crawl-execution/domain/ports/crawlEnginePort';
 import { TargetEvaluation } from 'src/crawl-execution/domain/services/crawlTargetPolicy';
+import { PlatformDetection } from 'src/job-discovery/domain/model/platformDetection';
 
 // Result of inspecting one URL: the policy verdict, and — when the target
 // was allowed — the live page visit plus the crawler-owned snapshot built
@@ -10,5 +11,6 @@ export interface TargetInspection {
   evaluation: TargetEvaluation;
   pageVisit?: PageVisit;
   snapshot?: PageSnapshot;
+  platformDetection?: PlatformDetection;
   finalUrlEvaluation?: TargetEvaluation;
 }

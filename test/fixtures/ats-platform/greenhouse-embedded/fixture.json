@@ -1,0 +1,11 @@
+{
+  "description": "Custom-domain career page embedding a Greenhouse job board via iframe + embed script. Expected: GREENHOUSE / MEDIUM via iframe and script sources (no hostname match).",
+  "pages": [
+    {
+      "id": "careers",
+      "url": "https://careers.acme-analytics.example/jobs",
+      "file": "careers.html",
+      "mustContain": ["boards.greenhouse.io/embed/job_board", "Open positions"]
+    }
+  ]
+}

@@ -95,6 +95,32 @@ describe('CheerioPageSnapshotBuilderAdapter', () => {
       expect(snapshot.visibleText).toContain('Senior Backend Engineer');
       expect(snapshot.visibleText).not.toContain('not visible text');
     });
+
+    it('should collect no sources when scripts are inline and no iframe exists', () => {
+      expect(snapshot.scriptSources).toEqual([]);
+      expect(snapshot.iframeSources).toEqual([]);
+    });
+  });
+
+  it('should collect resolved, deduplicated iframe and script sources', () => {
+    const snapshot = builder.build({
+      requestedUrl: 'https://careers.acme.example/jobs',
+      finalUrl: 'https://careers.acme.example/jobs',
+      html: `<body>
+        <script src="https://boards.greenhouse.io/embed/job_board/js?for=acme"></script>
+        <script src="/assets/app.js"></script>
+        <script src="/assets/app.js"></script>
+        <iframe src="https://boards.greenhouse.io/embed/job_board?for=acme"></iframe>
+      </body>`,
+    });
+
+    expect(snapshot.scriptSources).toEqual([
+      'https://boards.greenhouse.io/embed/job_board/js?for=acme',
+      'https://careers.acme.example/assets/app.js',
+    ]);
+    expect(snapshot.iframeSources).toEqual([
+      'https://boards.greenhouse.io/embed/job_board?for=acme',
+    ]);
   });
 
   it('should keep inline style content out of surrounding text', () => {

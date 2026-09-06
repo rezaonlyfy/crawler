@@ -38,7 +38,25 @@ export class CheerioPageSnapshotBuilderAdapter implements PageSnapshotBuilderPor
       links: this.links($, baseUrl),
       jsonLd: this.jsonLdBlocks($),
       metadata: this.metadata($),
+      iframeSources: this.resolvedSources($, 'iframe[src]', baseUrl),
+      scriptSources: this.resolvedSources($, 'script[src]', baseUrl),
     };
+  }
+
+  private resolvedSources(
+    $: CheerioAPI,
+    selector: string,
+    baseUrl: string,
+  ): string[] {
+    const sources = new Set<string>();
+    $(selector).each((_, el) => {
+      const src = ($(el).attr('src') || '').trim();
+      const resolved = src ? this.resolveUrl(src, baseUrl) : undefined;
+      if (resolved) {
+        sources.add(resolved.href);
+      }
+    });
+    return [...sources];
   }
 
   private canonicalUrl($: CheerioAPI, baseUrl: string): string | undefined {

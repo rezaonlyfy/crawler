@@ -16,7 +16,12 @@ test/fixtures/<category>/<fixture-name>/
 Categories are declared in `src/shared/testing/fixtures/htmlFixture.ts`
 (`FIXTURE_CATEGORIES`) and must have a matching directory here. Current
 categories: `basic-career-page`, `jsonld-job`, `html-job`, `pagination`,
-`malformed-jsonld`.
+`malformed-jsonld`, `ats-platform`.
+
+Exception to the `.example`-domain rule: `ats-platform` fixtures use the
+real ATS hostnames (with fake tenants, e.g. `acme-demo.jobs.personio.de`)
+because the hostname itself is the fingerprint under test. Tests never fetch
+fixture URLs, so nothing real is ever crawled.
 
 ## Manifest (`fixture.json`)
 

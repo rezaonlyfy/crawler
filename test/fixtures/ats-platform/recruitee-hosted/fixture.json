@@ -1,0 +1,11 @@
+{
+  "description": "Recruitee-hosted career site (fake tenant on the real *.recruitee.com hostname — the hostname is the fingerprint). Expected: RECRUITEE / HIGH via hostname.",
+  "pages": [
+    {
+      "id": "board",
+      "url": "https://acme-demo.recruitee.com/",
+      "file": "board.html",
+      "mustContain": ["Work with us"]
+    }
+  ]
+}

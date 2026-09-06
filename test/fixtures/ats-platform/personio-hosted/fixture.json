@@ -1,0 +1,11 @@
+{
+  "description": "Personio-hosted career board. ATS-platform fixtures intentionally use the real ATS hostname (with a fake tenant) because the hostname IS the fingerprint; the fake tenant guarantees nothing real is ever crawled. Expected: PERSONIO / HIGH via hostname, plus the 'Powered by Personio' marker.",
+  "pages": [
+    {
+      "id": "board",
+      "url": "https://acme-demo.jobs.personio.de/",
+      "file": "board.html",
+      "mustContain": ["Powered by Personio", "Offene Stellen"]
+    }
+  ]
+}

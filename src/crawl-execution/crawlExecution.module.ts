@@ -13,13 +13,14 @@ import { RunCommand } from 'src/crawl-execution/infrastructure/cli/run.command';
 import { TargetInspectionFormatter } from 'src/crawl-execution/infrastructure/cli/targetInspection.formatter';
 import { CrawleePlaywrightCrawlEngine } from 'src/crawl-execution/infrastructure/crawlee/crawleePlaywrightCrawlEngine.adapter';
 import { CheerioPageSnapshotBuilderAdapter } from 'src/crawl-execution/infrastructure/snapshot/cheerioPageSnapshotBuilder.adapter';
+import { JobDiscoveryModule } from 'src/job-discovery/jobDiscovery.module';
 import { ClockPort } from 'src/shared/domain/ports/clockPort';
 import { IdGeneratorPort } from 'src/shared/domain/ports/idGeneratorPort';
 import { SHARED_SYMBOLS } from 'src/shared/infrastructure/IoC/Symbols';
 import { SharedModule } from 'src/shared/shared.module';
 
 @Module({
-  imports: [SharedModule],
+  imports: [SharedModule, JobDiscoveryModule],
   providers: [
     {
       provide: CRAWL_EXECUTION_SYMBOLS.CRAWL_TARGET_POLICY,

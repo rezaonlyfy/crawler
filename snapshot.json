@@ -1,0 +1,88 @@
+{
+  "requestedUrl": "https://vytal.jobs.personio.de/",
+  "finalUrl": "https://vytal.jobs.personio.de/",
+  "canonicalUrl": "https://vytal.jobs.personio.de/?language=de",
+  "pageTitle": "Jobs bei",
+  "visibleText": "Zum Hauptinhalt springenDeutschDeutschOffene StellenAbteilungFinance - 1 Position1Head of Finance (m,f,d)Remote, Köln, BerlinVollzeitFestanstellungOperations Europe - 1 Position1(Senior) Strategic Sourcing Manager - Reusable Systems (m/w/d)Köln, RemoteVollzeitFestanstellungPowered by PersonioDatenschutzerklärungImpressum",
+  "headings": [
+    {
+      "level": 1,
+      "text": "Offene Stellen"
+    },
+    {
+      "level": 2,
+      "text": "Finance - 1 Position"
+    },
+    {
+      "level": 3,
+      "text": "Head of Finance (m,f,d)"
+    },
+    {
+      "level": 2,
+      "text": "Operations Europe - 1 Position"
+    },
+    {
+      "level": 3,
+      "text": "(Senior) Strategic Sourcing Manager - Reusable Systems (m/w/d)"
+    }
+  ],
+  "links": [
+    {
+      "url": "https://vytal.jobs.personio.de/",
+      "anchorText": "Zum Hauptinhalt springen",
+      "scope": "internal",
+      "surroundingText": "Zum Hauptinhalt springenDeutschDeutschOffene StellenAbteilungFinance - 1 Position1Head of Finance (m,f,d)Remote, Köln, BerlinVollzeitFestanstellungOperations Europe - 1 Position1(Senior) Strategic Sourcing Manager - Reusable Systems (m/w/d)"
+    },
+    {
+      "url": "https://vytal.jobs.personio.de/",
+      "anchorText": "",
+      "scope": "internal",
+      "surroundingText": "Deutsch"
+    },
+    {
+      "url": "https://vytal.jobs.personio.de/job/2037941",
+      "anchorText": "Head of Finance (m,f,d)Remote, Köln, BerlinVollzeitFestanstellung",
+      "scope": "internal",
+      "surroundingText": "Finance - 1 Position1Head of Finance (m,f,d)Remote, Köln, BerlinVollzeitFestanstellung",
+      "nearbyHeading": "Finance - 1 Position"
+    },
+    {
+      "url": "https://vytal.jobs.personio.de/job/2690628",
+      "anchorText": "(Senior) Strategic Sourcing Manager - Reusable Systems (m/w/d)Köln, RemoteVollzeitFestanstellung",
+      "scope": "internal",
+      "surroundingText": "Operations Europe - 1 Position1(Senior) Strategic Sourcing Manager - Reusable Systems (m/w/d)Köln, RemoteVollzeitFestanstellung",
+      "nearbyHeading": "Operations Europe - 1 Position"
+    },
+    {
+      "url": "https://www.personio.com/",
+      "anchorText": "Personio",
+      "scope": "external",
+      "surroundingText": "Powered by Personio",
+      "nearbyHeading": "(Senior) Strategic Sourcing Manager - Reusable Systems (m/w/d)"
+    },
+    {
+      "url": "https://vytal.jobs.personio.de/privacy-policy",
+      "anchorText": "Datenschutzerklärung",
+      "scope": "internal",
+      "surroundingText": "DatenschutzerklärungImpressum",
+      "nearbyHeading": "(Senior) Strategic Sourcing Manager - Reusable Systems (m/w/d)"
+    },
+    {
+      "url": "https://vytal.jobs.personio.de/",
+      "anchorText": "Impressum",
+      "scope": "internal",
+      "surroundingText": "DatenschutzerklärungImpressum",
+      "nearbyHeading": "(Senior) Strategic Sourcing Manager - Reusable Systems (m/w/d)"
+    }
+  ],
+  "jsonLd": [],
+  "metadata": {
+    "viewport": "width=device-width, initial-scale=1",
+    "referrer": "strict-origin-when-cross-origin",
+    "generated": "2026-09-06 13:44:20",
+    "og:title": "Jobs bei ",
+    "og:url": "https://vytal.jobs.personio.de/?language=null",
+    "twitter:card": "summary",
+    "twitter:title": "Jobs bei "
+  }
+}
